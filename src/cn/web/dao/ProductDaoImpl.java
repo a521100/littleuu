@@ -10,9 +10,9 @@ public class ProductDaoImpl extends BaseDao {
 		// product.setName("华为手机");
 		// product.setPrice(5999.99);
 		// product.setRemark("测试一下!!");
-		// product.setId(3);
-		// daoImpl.update(product);
-		daoImpl.delete(3);
+		// product.setId(4);
+		// daoImpl.save(product);
+		daoImpl.delete(5);
 	}
 
 	public int update(Product product) {
