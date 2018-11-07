@@ -21,13 +21,14 @@ public class JdbcUtils {
 	
 	public static Connection getConnection(){
 		try {
-			return DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root", "root");
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root", "123456");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	public static void main() {
-		Connection con = JdbcUtils.getConnection();
+	public static void main(String[] args) {
+		Connection conn = JdbcUtils.getConnection();
+		System.out.println(conn);
 	}
 }
