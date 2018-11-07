@@ -2,6 +2,7 @@ package cn.web.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import cn.web.model.Product;
 
@@ -16,11 +17,22 @@ public class ProductDaoImpl extends BaseDao<Product> {
 		// product.setId(4);
 		// daoImpl.save(product);
 		// daoImpl.delete(5);
-		Product product = daoImpl.getById(2);
-		System.out.println(product);
+		// Product product = daoImpl.getById(2);
+		// System.out.println(product);
+		List<Product> proList = daoImpl.queryByName("西服");
+		for (Product temp : proList) {
+			System.out.println(temp);
+		}
+	}
+
+	public List<Product> queryByName(String keyword) {
+		String sql = "select * from product where name like ?";
+		return super.queryByName(sql, new Object[] { "%" + keyword + "%" });
 	}
 
 	public Product getById(int id) {
+		String sql = "select * from product where id = ?";
+		return super.getById(sql, id);
 		// Connection conn = null;
 		// PreparedStatement pre = null;
 		// ResultSet rs = null;
@@ -42,8 +54,6 @@ public class ProductDaoImpl extends BaseDao<Product> {
 		// } finally {
 		// JdbcUtils.close(conn, pre);
 		// }
-		String sql = "select * from product where id = ?";
-		return super.getById(sql, id);
 	}
 
 	public int update(Product product) {

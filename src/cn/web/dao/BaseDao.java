@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.web.utils.JdbcUtils;
 
@@ -46,5 +48,30 @@ public abstract class BaseDao<T> {
 		} finally {
 			JdbcUtils.close(conn, pre);
 		}
+	}
+
+	public List<T> queryByName(String sql, Object[] param) {
+		List<T> tlist = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement pre = null;
+		ResultSet rs = null;
+		try {
+			conn = JdbcUtils.getConnection();
+			pre = conn.prepareStatement(sql);
+			for (int i = 0; i < param.length; i++) {
+				pre.setObject(i + 1, param[i]);
+			}
+			rs = pre.executeQuery();
+			while (rs.next()) {
+				T t = this.getRow(rs);
+				tlist.add(t);
+			}
+			return tlist;
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		} finally {
+			JdbcUtils.close(conn, pre);
+		}
+
 	}
 }
