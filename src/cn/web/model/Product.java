@@ -10,6 +10,12 @@ public class Product {
 	private String remark;
 	private Date date;
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", remark=" + remark + ", date=" + date
+				+ "]";
+	}
+
 	public Integer getId() {
 		return id;
 	}

@@ -2,11 +2,12 @@ package cn.web.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import cn.web.utils.JdbcUtils;
 
-public class BaseDao {
+public abstract class BaseDao<T> {
 
 	protected int update(String sql, Object[] param) {
 		Connection conn = null;
@@ -24,4 +25,26 @@ public class BaseDao {
 		}
 	}
 
+	protected abstract T getRow(ResultSet rs) throws SQLException;
+
+	protected T getById(String sql, int id) {
+		T model = null;
+		Connection conn = null;
+		PreparedStatement pre = null;
+		ResultSet rs = null;
+		try {
+			conn = JdbcUtils.getConnection();
+			pre = conn.prepareStatement("select * from product where id = ?");
+			pre.setInt(1, id);
+			rs = pre.executeQuery();
+			if (rs.next()) {
+				model = this.getRow(rs);
+			}
+			return model;
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		} finally {
+			JdbcUtils.close(conn, pre);
+		}
+	}
 }
