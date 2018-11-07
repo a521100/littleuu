@@ -8,18 +8,20 @@ import cn.web.utils.JdbcUtils;
 
 public class BaseDao {
 
-	public int update(String sql,Object[] aa) {
+	protected int update(String sql, Object[] param) {
 		Connection conn = null;
 		PreparedStatement pre = null;
+
 		try {
 			conn = JdbcUtils.getConnection();
 			pre = conn.prepareStatement(sql);
-			for (int i = 0;i < aa.length; i++) {
-				pre.setObject(i + 1, aa[i]);
+			for (int i = 0; i < param.length; i++) {
+				pre.setObject(i + 1, param[i]);
 			}
 			return pre.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
+
 }
